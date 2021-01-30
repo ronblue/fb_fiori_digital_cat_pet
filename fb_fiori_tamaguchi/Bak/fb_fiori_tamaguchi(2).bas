@@ -1,14 +1,7 @@
-#INCLUDE ONCE "char.bi"
+#INCLUDE ONCE "cat_obj.bi"
 SCREEN 19
 
-pose1()
 
-SLEEP
+fiori.make_sound("cat_sound.wav", 3)
 
-pose2()
-
-SLEEP
-
-pose3()
-
-sleep
+fiori.animation
