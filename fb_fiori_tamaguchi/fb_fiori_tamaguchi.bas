@@ -1,0 +1,18 @@
+#INCLUDE ONCE "char.bi"
+SCREEN 19
+
+DO
+
+pose1()
+
+SLEEP 500
+
+pose2()
+
+SLEEP 500
+
+pose3()
+
+SLEEP 500
+
+LOOP UNTIL INKEY <> ""

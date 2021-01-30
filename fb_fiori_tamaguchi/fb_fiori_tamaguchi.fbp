@@ -1,0 +1,17 @@
+[Project]
+Version=3
+Description=fb_cat_tamaguchi
+Api=fb (FreeBASIC)
+[Make]
+Current=1
+1=Windows Console (debug),fbc -g -s console
+Recompile=2
+Module=Module Build,fbc -c
+[TabOrder]
+TabOrder=1,0
+[File]
+1=fb_fiori_tamaguchi.bas
+[BreakPoint]
+1=
+[FileInfo]
+1=0,15,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
