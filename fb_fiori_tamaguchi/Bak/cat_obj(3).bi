@@ -64,8 +64,8 @@ END SUB
 SUB CAT.ANIMATION()
    DIM i AS INTEGER = 0
    DO
-      IF i >= 2 THEN i = 0
-      this.DISPLAY_SCREEN(i)
+      IF i >= 3 THEN i = 0
+      DISPLAY_SCREEN(i)
       SLEEP 500
       i += 1
       
@@ -76,7 +76,8 @@ SUB cat.make_sound(f AS STRING, t AS INTEGER)
    DIM AS Integer hWave
 	fbs_Load_WAVFile(f , @hWave)
 	fbs_Play_Wave(hWave , t)
-	Sleep
+	SLEEP
+  While Inkey <> "":WEND
 	fbs_Destroy_Wave(@hWave)
 END SUB
 
