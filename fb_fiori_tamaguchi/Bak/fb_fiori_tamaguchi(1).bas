@@ -2,6 +2,6 @@
 SCREEN 19
 
 
-fiori.make_sound("cat_sound.wav", 1)
+'fiori.make_sound("cat_sound.wav", 1)
 
-fiori.animation()
+fiori.animation("cat_sound.wav", 1)

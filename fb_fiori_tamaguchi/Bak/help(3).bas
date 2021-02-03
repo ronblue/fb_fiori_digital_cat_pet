@@ -1,0 +1,2 @@
+PRINT ASC("f")
+sleep

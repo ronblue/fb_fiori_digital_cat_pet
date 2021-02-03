@@ -1,27 +1,30 @@
 #INCLUDE ONCE "fbsound_dynamic.bi"
-
+#INCLUDE "vbcompat.bi"
 DIM SHARED AS long hWave
 DIM SHARED AS STRING k
+CONST file AS STRING = "cat_log.txt"
 'DIM SHARED isOut AS boolean = FALSE
 'DIM SHARED text1 AS STRING
 'DIM SHARED text2 AS STRING
 'DIM SHARED AS INTEGER hunger
 'hunger = INT(RND*101)
-'ENUM poses
-'   poses1
-'   poses2
-'   poses3
-'END ENUM
+ENUM age
+   kitten
+   young
+   adult
+   old
+END ENUM
 
 TYPE cat
    PRIVATE:
    AS string cat_name
    PUBLIC:
-   AS STRING text1, text2, text3, text4, text5, text6
+   AS STRING text1, text2, text3, text4, text5, text6, cat_age
    isOut AS boolean
    AS INTEGER hunger, pet_count, nap_count
    DECLARE PROPERTY cat_name1() AS STRING
    DECLARE PROPERTY cat_name1(BYVAL cat_name AS STRING)
+   DECLARE SUB settings(i AS age)
    DECLARE SUB pet_cat()
    DECLARE SUB CP(row AS INTEGER, s AS STRING)
    DECLARE SUB display_screen(index AS INTEGER)
@@ -30,6 +33,8 @@ TYPE cat
    DECLARE SUB cat_hunger()
    DECLARE SUB nap_time(inx AS INTEGER)
    DECLARE SUB cat_napping()
+   DECLARE SUB write_file(filename AS STRING)
+   DECLARE SUB read_file(filename AS STRING)
    DECLARE CONSTRUCTOR()
    DECLARE DESTRUCTOR()
    
@@ -37,14 +42,14 @@ END TYPE
 
 CONSTRUCTOR cat
    this.isOut = FALSE
-   this.hunger = INT(RND*101)
+   'this.hunger = INT(RND*101)
    THIS.text1 = ""
    this.text2 = ""
    this.text3 = ""
    this.text4 = ""
    this.text5 = ""
-   this.pet_count = INT(RND*201)
-   this.nap_count = INT(RND*151)
+   'this.pet_count = INT(RND*201)
+   'this.nap_count = INT(RND*151)
    
 END CONSTRUCTOR
 
@@ -59,6 +64,36 @@ END PROPERTY
 PROPERTY cat.cat_name1(BYVAL cat_name AS STRING)
    this.cat_name = cat_name
 END PROPERTY
+
+SUB cat.write_file(filename AS STRING)
+   DIM f AS LONG = FREEFILE()
+   OPEN filename FOR OUTPUT AS #f
+   write #f, cat_name1
+   write #f, this.hunger
+   write #f, THIS.pet_count
+   write #f, this.nap_count
+   write #f, this.isOut
+   write #f, this.cat_age
+   CLOSE #f
+END SUB
+
+SUB cat.read_file(filename AS STRING)
+   DIM h AS LONG = FREEFILE()
+   DIM fline AS STRING
+   OPEN filename FOR INPUT AS #h
+   'WHILE NOT (EOF)
+      'LINE INPUT #h, fline
+      INPUT #h, fline
+      cat_name1 = fline
+      INPUT #h, this.hunger
+      INPUT #h, THIS.pet_count
+      INPUT #h, this.nap_count
+      INPUT #h, this.isOut
+      INPUT #h, this.cat_age
+      CLOSE #h
+   'WEND
+END SUB
+
 
 
 SUB cat.nap_time(inx AS INTEGER)
@@ -78,7 +113,7 @@ SUB cat.nap_time(inx AS INTEGER)
          CP 13, " /          "
          CP 14, "------------"
          CP 35, text5
-         CP 15, "cat " & cat_name1
+         CP 15, this.cat_age & " " & cat_name1
       CASE 1:
          CLS
          CP 4, "%%%%%%%%%%%%"
@@ -94,7 +129,7 @@ SUB cat.nap_time(inx AS INTEGER)
          CP 13, " %          "
          CP 14, "%%%%%%%%%%%%"
          CP 35, text5
-         CP 15, "cat " & cat_name1
+         CP 15, this.cat_age & " " & cat_name1
       CASE 2:
          CLS
          CP 4, "zzzzzzzzzzzz"
@@ -110,9 +145,35 @@ SUB cat.nap_time(inx AS INTEGER)
          CP 13, " z          "
          CP 14, "zzzzzzzzzzzz"
          CP 35, text5
-         CP 15, "cat " & cat_name1
+         CP 15, this.cat_age & " " & cat_name1
    END SELECT
 END SUB
+
+SUB cat.settings(i AS age)
+   SELECT CASE i
+      CASE 0:
+         this.hunger = INT(RND*101)
+         this.pet_count = INT(RND*201)
+         this.nap_count = INT(RND*151)
+         this.cat_age = "kitten"
+      CASE 1:
+         this.hunger = INT(RND*201)
+         this.pet_count = INT(RND*301)
+         this.nap_count = INT(RND*250)
+         this.cat_age = "young cat"
+      CASE 2:
+         this.hunger = INT(RND*351)
+         this.pet_count = INT(RND*451)
+         this.nap_count = INT(RND*401)
+         this.cat_age = "adult cat"
+      CASE 3:
+         this.hunger = INT(RND*301)
+         this.pet_count = INT(RND*401)
+         this.nap_count = INT(RND*161)
+         this.cat_age = "old cat"   
+   END SELECT
+END SUB
+
 
 
 
@@ -144,7 +205,7 @@ SUB cat.display_screen(index AS integer)
    SELECT CASE index
       CASE 0:
          CLS
-   CP 15, "cat " & cat_name1
+   CP 15, this.cat_age & " " &cat_name1
    CP 4, "^                        ^"
    CP 5, "( ) %%%%%%%%%%%%%%%%%%%  ( )"
    CP 6, "<| (( <|> ))  ||   ((  <|>  )) |>"
@@ -162,7 +223,7 @@ SUB cat.display_screen(index AS integer)
    CP 31, text6
       CASE 1:
          CLS
-   CP 15, "cat " & cat_name1
+   CP 15, this.cat_age & " " &cat_name1
    CP 4, "^                        ^"
    CP 5, "( ) %%%%%%%%%%%%%%%%%%%  ( )"
    CP 6, "<| (( <I> ))  ||   ((  <I>  )) |>"
@@ -180,7 +241,7 @@ SUB cat.display_screen(index AS integer)
    CP 31, text6
       CASE 2:
          cls
-   CP 15, "cat " & cat_name1
+   CP 15, this.cat_age &" "& cat_name1
    CP 4, "^                        ^"
    CP 5, "( ) %%%%%%%%%%%%%%%%%%%  ( )"
    CP 6, "<| (( <dOb> ))  ||   ((  <dOb>  )) |>"
@@ -277,15 +338,30 @@ END SUB
 SUB CAT.ANIMATION(f AS STRING, t AS INTEGER)
    
    DO
-      DIM catname AS STRING
-      INPUT "enter cat name: ", catname
-      cat_name1 = catname
       
+      IF this.isOut = TRUE OR NOT FILEEXISTS(file) THEN 
+      DIM AS STRING catname, age1
+      INPUT "enter cat name or enter 'quit' to exit: ", catname
+      IF catname = "quit" THEN
+         write_file(file)
+         END
+      ENDIF
+      cat_name1 = catname
+      INPUT "select age of cat - 0 for kitten, 1 for young, 2 for adult, 3 for old: ", age1
+      'age1 = VAL(age1)
+      settings(VAL(age1))
+      'this.hunger = INT(RND*101)
+	   'this.pet_count = INT(RND*201)
+      'write_file(file)
+      ELSE 
+         read_file(file)
+      'ELSE
+         
+      ENDIF
    this.isOut = FALSE
    DIM i AS INTEGER = 0
    make_sound(f, t)
-	this.hunger = INT(RND*101)
-	this.pet_count = INT(RND*201)
+	
 	DIM x AS INTEGER = 0
    DIM xx AS INTEGER = 50
    DO
@@ -302,7 +378,10 @@ SUB CAT.ANIMATION(f AS STRING, t AS INTEGER)
        " cat pet time is: " & this.pet_count
        THIS.nap_count -= 1
        this.hunger -= 1
-       IF k = CHR(27) THEN end
+       IF k = CHR(27) THEN
+          write_file(file)
+          end
+       ENDIF
       ELSEIF this.nap_count <= 50 THEN
           cat_napping()
           this.nap_count = INT(RND*151)
@@ -312,12 +391,13 @@ SUB CAT.ANIMATION(f AS STRING, t AS INTEGER)
    fbs_Destroy_Wave(@hWave)
    IF THIS.isOut = TRUE THEN
    CLS
+   write_file(file)
    this.text1 = "CAT DIED FROM HUNGER - YOU DIDN'T FEED IT ON TIME!"
    this.text4 = "PRESS ANY KEY TO START OVER WITH A NEW CAT!"
    CP 31, THIS.text1
    CP 34, this.text4
    SLEEP 
-   this.isOut = FALSE
+   'this.isOut = FALSE
    this.text1 = ""
    this.text4 = ""
    ENDIF

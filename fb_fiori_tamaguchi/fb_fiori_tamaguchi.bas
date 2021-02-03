@@ -1,4 +1,4 @@
-#INCLUDE ONCE "cat_obj.bi"
+#INCLUDE ONCE "cat_obj_2.bi"
 SCREEN 19
 
 
