@@ -6,6 +6,16 @@
 CONST AS SHORT scr_w = 800, scr_h = 600 ' screen constants
 CONST file AS STRING = "cat_log.txt"
 
+ENUM colors
+   blue = RGBA(0,0,255,255)
+   green = RGBA(0,255,0,255)
+   red = RGBA(255,0,0,255)
+   blueRed = RGBA(200, 0 ,180,255)
+   greenBlue = RGBA(50, 210, 150, 255)
+   redGreen = RGBA(180, 230, 45, 255)
+END ENUM
+
+
 ENUM age
    kitten
    young
@@ -26,7 +36,7 @@ TYPE cat
    DECLARE PROPERTY cat_name1() AS STRING
    DECLARE PROPERTY cat_name1(BYVAL cat_name AS STRING)
    DECLARE FUNCTION REMAP(x as single, startF as single, endF as single, startT as single, endT as single ) as single
-   DECLARE SUB drawHBar( v as integer, x as integer, y as integer, w as integer )
+   DECLARE SUB drawHBar( v as integer, x as integer, y as integer, w as INTEGER, colo AS ulong )
    DECLARE SUB time_diff()
    DECLARE SUB settings(i AS age)
    DECLARE SUB pet_cat(key AS STRING)
@@ -115,9 +125,9 @@ FUNCTION cat.REMAP(x as single, startF as single, endF as single, startT as sing
 
 END FUNCTION
 
-SUB cat.drawHBar( v as integer, x as integer, y as integer, w as integer )
-   line( x, y ) - ( x + w - 1, y + 10 ), rgba( 255, 255, 0, 255 ), b
-  line( x + 2, y + 2 ) - ( x + v, y + 8 ), rgba( 255, 255, 0, 255 ), bf
+SUB cat.drawHBar( v as integer, x as integer, y as integer, w as INTEGER, colo AS ULONG)
+   line( x, y ) - ( x + w - 1, y + 10 ), colo, b
+  line( x + 2, y + 2 ) - ( x + v, y + 8 ), colo, bf
 END SUB
 
 SUB cat.nap_time(inx AS INTEGER)
@@ -240,11 +250,11 @@ CP 35, text2
 CP 32, text4
 CP 33, text3
 CP 31, text6
-DRAWHBAR( remap(this.hunger, 0, 10000, 0, 100), 50, 100, 100 )
+DRAWHBAR( remap(this.hunger, 0, 10000, 0, 100), 50, 100, 100, colors.blue )
 DRAW STRING (50, 80), "hunger rate", RGBA(0, 0, 255, 255)
-DRAWHBAR( remap(this.nap_count, 0, 3001, 0, 100), 50, 140, 100 )
-DRAW STRING (50, 120), "nap timer", RGBA(0, 255, 0, 255)
-DRAWHBAR( remap(this.pet_count, 0, 10000, 0, 100), 50, 180, 100 )
+DRAWHBAR( remap(this.nap_count, 0, 3001, 0, 100), 50, 140, 100, colors.blueRed )
+DRAW STRING (50, 120), "nap timer", colors.blueRed
+DRAWHBAR( remap(this.pet_count, 0, 10000, 0, 100), 50, 180, 100, colors.red )
 DRAW STRING (50, 160), "pet counter", RGBA(255, 0, 0, 255) 
 SCREENUNLOCK
 SLEEP 1

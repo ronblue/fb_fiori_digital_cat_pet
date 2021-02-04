@@ -3,10 +3,8 @@
 'y = y coordinate of the bar
 'w/h = width/height of the bar (depends on if you want to draw a horizontal or vertical bar)
 
-x = 100
-y = 100
+DIM AS INTEGER x = 100, y = 100, h = 100
 
-h = 100
 
 
 '' Remaps a value from one range into another
@@ -23,8 +21,16 @@ end SUB
 
 sub drawVBar( v as integer, x as integer, y as integer, h as integer )
   line( x, y ) - ( x + 10, y + h ), rgba( 255, 255, 0, 255 ), b
-  line( x + 2, y + 2 ) - ( x + 8, y + v ), rgba( 255, 255, 0, 255 ), bf
+  'LINE( x + 8, y + v ) - (x + 2, y + 2) , rgba( 255, 255, 0, 255 ), bf
+  line( x + 2, y + h ) - ( x + 8, y + h - v ), rgba( 255, 255, 0, 255 ), bf
+
 end SUB
+
+'' And this draws the bar proper
+  'line( x + 2, y + 2 ) - ( x + 8, y + v ), rgba( 255, 255, 0, 255 ), bf
+  '' This draws the bar 'filled' from the bottom-up
+  'line( x + 2, y + h ) - ( x + 8, y + h - v ), rgba( 255, 255, 0, 255 ), bf
+
 
 SCREENRES 800,600,32
 
