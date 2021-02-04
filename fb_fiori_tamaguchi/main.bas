@@ -25,6 +25,8 @@ TYPE cat
    PUBLIC:
    DECLARE PROPERTY cat_name1() AS STRING
    DECLARE PROPERTY cat_name1(BYVAL cat_name AS STRING)
+   DECLARE FUNCTION REMAP(x as single, startF as single, endF as single, startT as single, endT as single ) as single
+   DECLARE SUB drawHBar( v as integer, x as integer, y as integer, w as integer )
    DECLARE SUB time_diff()
    DECLARE SUB settings(i AS age)
    DECLARE SUB pet_cat(key AS STRING)
@@ -56,16 +58,10 @@ next i
 END CONSTRUCTOR
 
 DESTRUCTOR cat
-IMAGEDESTROY(imge(1))
-IMAGEDESTROY(imge(2))
-IMAGEDESTROY(imge(3))
-IMAGEDESTROY(imge(4))
-IMAGEDESTROY(imge(5))
-IMAGEDESTROY(imge(6))
-IMAGEDESTROY(imge(7))
-IMAGEDESTROY(imge(8))
-IMAGEDESTROY(imge(9))
-IMAGEDESTROY(imge(10))
+FOR i AS INTEGER = 1 TO 10
+   IMAGEDESTROY(imge(i))
+NEXT
+
 END DESTRUCTOR
 
 PROPERTY cat.cat_name1() AS STRING
@@ -114,6 +110,15 @@ sub cat.time_diff()
    ENDIF
 END sub
 
+FUNCTION cat.REMAP(x as single, startF as single, endF as single, startT as single, endT as single ) as single
+  return( ( x - startF ) * ( endT - startT ) / ( endF - startF ) + startT )
+
+END FUNCTION
+
+SUB cat.drawHBar( v as integer, x as integer, y as integer, w as integer )
+   line( x, y ) - ( x + w - 1, y + 10 ), rgba( 255, 255, 0, 255 ), b
+  line( x + 2, y + 2 ) - ( x + v, y + 8 ), rgba( 255, 255, 0, 255 ), bf
+END SUB
 
 SUB cat.nap_time(inx AS INTEGER)
    SELECT CASE inx
@@ -235,6 +240,12 @@ CP 35, text2
 CP 32, text4
 CP 33, text3
 CP 31, text6
+DRAWHBAR( remap(this.hunger, 0, 10000, 0, 100), 50, 100, 100 )
+DRAW STRING (50, 80), "hunger rate", RGBA(0, 0, 255, 255)
+DRAWHBAR( remap(this.nap_count, 0, 3001, 0, 100), 50, 140, 100 )
+DRAW STRING (50, 120), "nap timer", RGBA(0, 255, 0, 255)
+DRAWHBAR( remap(this.pet_count, 0, 10000, 0, 100), 50, 180, 100 )
+DRAW STRING (50, 160), "pet counter", RGBA(255, 0, 0, 255) 
 SCREENUNLOCK
 SLEEP 1
 
@@ -323,8 +334,9 @@ SUB CAT.ANIMATION(f AS STRING, t AS INTEGER)
                      .pet_cat(key)
                      .time_diff()
                   IF .isOut = TRUE OR .isneglect = TRUE THEN EXIT DO
-                     .text2 = " cat hunger is: " & .hunger & " cat napping counter is: " & .nap_count & _
-                     " cat pet time is: " & .pet_count
+                     '.text2 = " cat hunger is: " & .hunger & " cat napping counter is: " & .nap_count & _
+                     '" cat pet time is: " & .pet_count
+                     
                      .nap_count -= 1
                      .hunger -= 1
                   IF key = CHR(27) THEN
@@ -341,7 +353,7 @@ SUB CAT.ANIMATION(f AS STRING, t AS INTEGER)
          IF .isOut = TRUE ORELSE .isNeglect = TRUE THEN
             CLS
                
-            .text2 = "IT'S BEEN " & DATEDIFF("d", this.d1, this.d2) & " MINUTES SINCE YOU LAST OPEN THE PROGRAM"
+            .text2 = "IT'S BEEN " & DATEDIFF("d", this.d1, this.d2) & " DAYS SINCE YOU LAST OPEN THE PROGRAM"
             .text1 = "CAT DIED FROM NEGLECT!!!"
             .text4 = "PRESS ANY KEY TO START OVER WITH A NEW CAT!"
             CP 31, .text1

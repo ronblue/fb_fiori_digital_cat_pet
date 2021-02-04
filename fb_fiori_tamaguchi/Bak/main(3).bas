@@ -252,9 +252,9 @@ CP 31, text6
 DRAWHBAR( remap(this.hunger, 0, 10000, 0, 100), 50, 100, 100 )
 DRAW STRING (50, 120), "hunger rate", RGBA(0, 0, 255, 255)
 DRAWHBAR( remap(this.nap_count, 0, 3001, 0, 100), 50, 140, 100 )
-DRAW STRING (50, 160), "nap timer", RGBA(0, 255, 0, 255)
-DRAWHBAR( remap(this.pet_count, 0, 10000, 0, 100), 50, 180, 100 )
-DRAW STRING (50, 200), "pet counter", RGBA(255, 0, 0, 255) 
+DRAW STRING (50, 150), "nap timer", RGBA(0, 255, 0, 255)
+DRAWHBAR( remap(this.pet_count, 0, 10000, 0, 100), 50, 160, 100 )
+DRAW STRING (50, 180), "pet counter", RGBA(255, 0, 0, 255) 
 SCREENUNLOCK
 SLEEP 1
 
