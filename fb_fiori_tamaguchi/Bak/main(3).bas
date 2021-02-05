@@ -36,7 +36,7 @@ TYPE cat
    DECLARE PROPERTY cat_name1() AS STRING
    DECLARE PROPERTY cat_name1(BYVAL cat_name AS STRING)
    DECLARE FUNCTION REMAP(x as single, startF as single, endF as single, startT as single, endT as single ) as single
-   DECLARE SUB drawHBar( v as integer, x as integer, y as integer, w as integer )
+   DECLARE SUB drawHBar( v as integer, x as integer, y as integer, w as INTEGER, colo AS ulong )
    DECLARE SUB time_diff()
    DECLARE SUB settings(i AS age)
    DECLARE SUB pet_cat(key AS STRING)
@@ -125,9 +125,9 @@ FUNCTION cat.REMAP(x as single, startF as single, endF as single, startT as sing
 
 END FUNCTION
 
-SUB cat.drawHBar( v as integer, x as integer, y as integer, w as integer )
-   line( x, y ) - ( x + w - 1, y + 10 ), colors.greenBlue, b
-  line( x + 2, y + 2 ) - ( x + v, y + 8 ), colors.blueRed, bf
+SUB cat.drawHBar( v as integer, x as integer, y as integer, w as INTEGER, colo AS ULONG)
+   line( x, y ) - ( x + w - 1, y + 10 ), colo, b
+  line( x + 2, y + 2 ) - ( x + v, y + 8 ), colo, bf
 END SUB
 
 SUB cat.nap_time(inx AS INTEGER)

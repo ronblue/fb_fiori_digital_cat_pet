@@ -64,6 +64,7 @@ this.text5 = ""
 
 for i as integer = 1 to 10
   this.imge(i) = ImageCreate(800,600)
+  BLOAD ("catsheet\Idle (" & i & ").bmp"), imge(i)
 next i
 END CONSTRUCTOR
 
@@ -239,7 +240,7 @@ END SUB
       
 SUB cat.display_screen(index AS INTEGER)
 
-BLOAD ("catsheet\Idle (" & index & ").bmp"), imge(index)  
+'BLOAD ("catsheet\Idle (" & index & ").bmp"), imge(index)  
 
 SCREENLOCK
 
@@ -250,11 +251,11 @@ CP 35, text2
 CP 32, text4
 CP 33, text3
 CP 31, text6
-DRAWHBAR( remap(this.hunger, 0, 10000, 0, 100), 50, 100, 100 )
+DRAWHBAR( remap(this.hunger, 0, 10000, 0, 100), 50, 100, 100, colors.blue )
 DRAW STRING (50, 80), "hunger rate", RGBA(0, 0, 255, 255)
-DRAWHBAR( remap(this.nap_count, 0, 3001, 0, 100), 50, 140, 100 )
+DRAWHBAR( remap(this.nap_count, 0, 3001, 0, 100), 50, 140, 100, colors.blueRed )
 DRAW STRING (50, 120), "nap timer", colors.blueRed
-DRAWHBAR( remap(this.pet_count, 0, 10000, 0, 100), 50, 180, 100 )
+DRAWHBAR( remap(this.pet_count, 0, 10000, 0, 100), 50, 180, 100, colors.red )
 DRAW STRING (50, 160), "pet counter", RGBA(255, 0, 0, 255) 
 SCREENUNLOCK
 SLEEP 1

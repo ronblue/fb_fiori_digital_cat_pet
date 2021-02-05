@@ -64,6 +64,7 @@ this.text5 = ""
 
 for i as integer = 1 to 10
   this.imge(i) = ImageCreate(800,600)
+  BLOAD ("catsheet\Idle (" & i & ").bmp"), imge(i)
 next i
 END CONSTRUCTOR
 
@@ -239,7 +240,7 @@ END SUB
       
 SUB cat.display_screen(index AS INTEGER)
 
-BLOAD ("catsheet\Idle (" & index & ").bmp"), imge(index)  
+'BLOAD ("catsheet\Idle (" & index & ").bmp"), imge(index)  
 
 SCREENLOCK
 
